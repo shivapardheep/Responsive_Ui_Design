@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ui_design/screens/DashBoard_Screen/dash_board_screen.dart';
 
-import '../../theme/app_theme.dart';
-import '../../widgets/drawer_widget.dart';
+import 'package:ui_design/screens/components/drawer_components.dart';
 
 class PcView extends StatefulWidget {
   const PcView({Key? key}) : super(key: key);
@@ -13,53 +13,13 @@ class PcView extends StatefulWidget {
 class _PcViewState extends State<PcView> {
   @override
   Widget build(BuildContext context) {
+    var _height = MediaQuery.of(context).size.height;
+    var _width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Pc Screen"),
-      ),
       body: Row(
-        children: [
-          DrawerClass.drawerWidget,
-          Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                AspectRatio(
-                  aspectRatio: 4,
-                  child: GridView.builder(
-                      itemCount: 4,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4),
-                      itemBuilder: (context, i) {
-                        return Container(
-                          margin: const EdgeInsets.all(10),
-                          color: AppTheme.primaryColor,
-                        );
-                      }),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, i) {
-                        return AspectRatio(
-                          aspectRatio: 10 / 1,
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
-                            color: Colors.deepPurpleAccent,
-                          ),
-                        );
-                      }),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.purple,
-            ),
-          ),
+        children: const [
+          Expanded(child: DrawerScreen()),
+          Expanded(flex: 5, child: DashBoardScreen()),
         ],
       ),
     );

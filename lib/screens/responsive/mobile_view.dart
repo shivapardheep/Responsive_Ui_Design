@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_design/screens/components/drawer_components.dart';
 import 'package:ui_design/theme/app_theme.dart';
 import 'package:ui_design/widgets/drawer_widget.dart';
 
@@ -16,7 +17,7 @@ class _MobileViewState extends State<MobileView> {
       appBar: AppBar(
         title: const Text("Mobile Screen"),
       ),
-      drawer: DrawerClass.drawerWidget,
+      drawer: const DrawerScreen(),
       body: Column(
         children: [
           AspectRatio(
