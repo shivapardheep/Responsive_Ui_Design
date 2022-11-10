@@ -13,8 +13,6 @@ class PcView extends StatefulWidget {
 class _PcViewState extends State<PcView> {
   @override
   Widget build(BuildContext context) {
-    var _height = MediaQuery.of(context).size.height;
-    var _width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Row(
         children: const [
