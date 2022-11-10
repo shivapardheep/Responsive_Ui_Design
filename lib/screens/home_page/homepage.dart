@@ -21,13 +21,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppTheme.secondaryColor,
       body: LayoutBuilder(builder: (context, size) {
-        if (size.maxWidth < 600) {
-          return widget.mobile_screen;
-        } else if (size.maxWidth < 1000) {
-          return widget.tablet_screen;
-        } else {
-          return widget.pc_screen;
-        }
+        // if (size.maxWidth < 600) {
+        //   return widget.mobile_screen;
+        // } else if (size.maxWidth < 1000) {
+        //   return widget.tablet_screen;
+        // } else {
+        return widget.pc_screen;
+        // }
       }),
     );
   }

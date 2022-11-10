@@ -1,8 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:ui_design/constants.dart';
 import 'package:ui_design/models/MyFiles.dart';
+import 'package:ui_design/models/RecentFile.dart';
+import 'package:ui_design/screens/DashBoard_Screen/storage_card.dart';
+
+import 'my_files.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -29,6 +34,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 Expanded(
                   flex: 5,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,9 +50,82 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             onPressed: () {},
                             label: const Text("Add New",
                                 style: TextStyle(color: Colors.white)),
-                            icon: Icon(Icons.add),
+                            icon: const Icon(Icons.add),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 20),
+                      MyFilesCard(width: _width),
+                      const SizedBox(height: 20),
+                      Container(
+                        height: _height * 0.55,
+                        width: double.infinity,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: secondaryColor),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "Recent Files",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: DataTable(columns: const [
+                                // Set the name of the column
+                                DataColumn(
+                                  label: Text(
+                                    'File Name',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Date',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Size',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ], rows: [
+                                // Set the values to the columns
+                                for (var i in demoRecentFiles) ...{
+                                  DataRow(cells: [
+                                    DataCell(Row(
+                                      // mainAxisAlignment:
+                                      // MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SvgPicture.asset(i.icon),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(i.title,
+                                              style: const TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ],
+                                    )),
+                                    DataCell(Text(i.date,
+                                        style: const TextStyle(
+                                            color: Colors.white))),
+                                    DataCell(Text(i.size,
+                                        style: const TextStyle(
+                                            color: Colors.white))),
+                                  ]),
+                                },
+                              ]),
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -54,57 +133,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 const SizedBox(
                   width: 10,
                 ),
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: secondaryColor,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Storage Details',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          ),
-                          const chartWidget(),
-                          Column(
-                            children: const [
-                              StorageFilesWidget(
-                                svgImage: 'assets/icons/Documents.svg',
-                                title: 'Documents Files',
-                                numOfFiles: '1328',
-                                storage: '1.3',
-                              ),
-                              StorageFilesWidget(
-                                svgImage: 'assets/icons/media.svg',
-                                title: 'Media Files',
-                                numOfFiles: '1328',
-                                storage: '15.3',
-                              ),
-                              StorageFilesWidget(
-                                svgImage: 'assets/icons/folder.svg',
-                                title: 'Other Files',
-                                numOfFiles: '1328',
-                                storage: '1.3',
-                              ),
-                              StorageFilesWidget(
-                                svgImage: 'assets/icons/unknown.svg',
-                                title: 'Unknown',
-                                numOfFiles: '140',
-                                storage: '1.3',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )),
+                const StorageCard(),
               ],
             ),
           ),
@@ -169,76 +198,6 @@ class StorageFilesWidget extends StatelessWidget {
           Text(
             storage + "GB",
             style: TextStyle(color: Colors.white, fontSize: 15),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class chartWidget extends StatelessWidget {
-  const chartWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          PieChart(
-            PieChartData(centerSpaceRadius: 70, sectionsSpace: 0, sections: [
-              PieChartSectionData(
-                value: 55,
-                color: Colors.blue,
-                radius: 25,
-                showTitle: false,
-              ),
-              PieChartSectionData(
-                value: 23,
-                color: Colors.red,
-                radius: 21,
-                showTitle: false,
-              ),
-              PieChartSectionData(
-                value: 44,
-                color: Colors.lightBlueAccent,
-                radius: 18,
-                showTitle: false,
-              ),
-              PieChartSectionData(
-                value: 77,
-                color: const Color(0xff2A3752),
-                radius: 15,
-                showTitle: false,
-              ),
-              PieChartSectionData(
-                value: 15,
-                color: Colors.yellow,
-                radius: 11,
-                showTitle: false,
-              ),
-            ]),
-          ),
-          Positioned(
-            child: RichText(
-                text: const TextSpan(
-                    text: "29.1",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30),
-                    children: [
-                  TextSpan(
-                      text: "\nof 128 GB",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                      )),
-                ])),
           ),
         ],
       ),
